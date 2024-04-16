@@ -1,6 +1,6 @@
 # CS436 Cloud Computing Group Project
 
-## Initial mockup of the clod architecture
+## Initial mockup of the cloud architecture
 
 ![Initial mockup of the cloud architecture](./CS%20436%20Mock%20Structure.png)
 
