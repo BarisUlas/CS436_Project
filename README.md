@@ -10,4 +10,6 @@
 
 ![Initial mockup of the cloud architecture](./CS%20436%20Mock%20Structure.png)
 
+## Project Plan 
+
 ![Project Plan](./CS436%20Project%20Plan.pdf)
