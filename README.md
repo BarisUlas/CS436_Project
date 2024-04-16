@@ -3,7 +3,7 @@
 ### Group members
 * Alper Kaan Odabaşoğlu - 28147
 * Barış Ulaş Çukur - 29461
-* ⁠Işıktan Tanış - 29560
+* Işıktan Tanış - 29560
 * Oktay Çelik - 29535
 
 ## Initial mockup of the cloud architecture
