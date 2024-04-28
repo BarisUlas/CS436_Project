@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+    mongo:
+      image: arm64v8/mongo:latest
+      platform: linux/arm64/v8
+      container_name: mongo
+      restart: always
+      ports:
+        - "${MONGODB_PORT}:${MONGODB_PORT}"
+    # environment:
+    #   MONGO_INITDB_DATABASE: ${MONGODB_DATABASE_NAME}
+    #   MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+    #   MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    #   MONGODB_NODEJS_USERNAME: ${MONGODB_NODEJS_USERNAME}
+    #   MONGODB_NODEJS_PASSWORD: ${MONGODB_NODEJS_PASSWORD}
+    #
