@@ -3,3 +3,5 @@ scripts
 *.dev*
 *.stg*
 .DS_Store
+
+.env
