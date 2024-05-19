@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { GoogleLogin } from "react-google-login"
 import { gapi } from "gapi-script"
 import { useEffect } from 'react'
 import { googleAuth, registerUser } from '../apis/auth'
@@ -114,18 +113,7 @@ function Regsiter() {
             <p style={{ display: isLoading ? "none" : "block" }} className='test-[#fff]'>Regsiter</p>
           </button>
           <p className='text-[#fff] text-center sm:-ml-8'>/</p>
-          <GoogleLogin
-            clientId={process.env.REACT_APP_CLIENT_ID}
-            render={(renderProps) => (
-              <button style={{ borderImage: "linear-gradient(to right, rgba(0,195,154,1) 50%, rgba(224,205,115,1) 80%)", borderImageSlice: "1" }} onClick={renderProps.onClick} disabled={renderProps.disabled} aria-label="Continue with google" className="focus:ring-2 focus:ring-offset-1   py-3.5 px-4 border rounded-lg  flex items-center w-[100%]  sm:w-[96.3%]" disableElevation={true} disableFocusRipple={true}>
-                <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sign_in-svg2.svg" alt="google" />
-                <p className="text-[base] font-medium ml-4 text-[#fff]">Continue with Google</p>
-              </button>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy={'single_host_origin'}
-          />
+          
         </form>
       </div>
     </div>
