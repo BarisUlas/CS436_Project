@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/avatar": "^2.3.0",
     "@chakra-ui/react": "^2.7.1",
+    "@chakra-ui/tooltip": "^2.3.1",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.11.1",
@@ -20,7 +22,6 @@
     "gapi-script": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-login": "^5.2.2",
     "react-icons": "^4.7.1",
     "react-loading-skeleton": "^3.2.0",
     "react-notification-badge": "^1.5.1",

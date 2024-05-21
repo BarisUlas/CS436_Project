@@ -1,6 +1,4 @@
-import fetch from "node-fetch";
 import express from 'express';
-import dotenv from 'dotenv/config';
 import mongoDBConnect from './mongoDB/connection.js';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -25,15 +23,18 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 mongoose.set('strictQuery', false);
 mongoDBConnect();
+
 const server = app.listen(PORT, () => {
   console.log(`Server Listening at PORT - ${PORT}`);
 });
+
 const io = new Server.Server(server, {
   pingTimeout: 60000,
   cors: {
     origin: 'http://localhost:3000',
   },
 });
+
 io.on('connection', (socket) => {
   socket.on('setup', (userData) => {
     socket.join(userData.id);

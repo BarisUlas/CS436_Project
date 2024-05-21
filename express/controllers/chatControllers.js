@@ -56,7 +56,7 @@ export const fetchAllChats = async (req, res) => {
     console.log(error);
   }
 };
-export const creatGroup = async (req, res) => {
+export const createGroup = async (req, res) => {
   const { chatName, users } = req.body;
   if (!chatName || !users) {
     res.status(400).json({ message: 'Please fill the fields' });
