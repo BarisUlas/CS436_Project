@@ -5,6 +5,11 @@ const messageSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    type: {
+      type: String,
+      enum: ["text", "image", "audio"],
+      default: "text",
+    },
     message: {
       type: String,
       trim: true,
@@ -16,7 +21,7 @@ const messageSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 const messageModel = mongoose.model("Message", messageSchema);
 export default messageModel;

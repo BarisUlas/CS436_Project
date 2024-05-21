@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  client:
+    build: ./client/
+    depends_on:
+      - express
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
+    volumes:
+      - ./client/:/app/
+    env_file:
+      - ./client/.env
+      - ./.env
+  express:
+    build: ./express/
+    depends_on:
+      - mongo
+    ports:
+      - "${EXPRESS_PORT}:${EXPRESS_PORT}"
+    volumes:
+      - ./express/:/app/
+    env_file:
+      - ./express/.env
+      - ./.env
+  mongo:
+    image: arm64v8/mongo:latest
+    platform: linux/arm64/v8
+    restart: always
+    ports:
+      - "${MONGODB_PORT}:${MONGODB_PORT}"
+  

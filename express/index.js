@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoDBConnect from './mongoDB/connection.js';
+import mongoDBConnect from './mongo/connect.js';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
