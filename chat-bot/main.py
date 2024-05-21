@@ -22,6 +22,39 @@ def hello_http(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
+    image_received = True
+
+    if request_json and 'image' in request_json:
+      encoded_image = request_json['image']
+      action = request_json['action']
+    elif request_args and 'image' in request_args:
+      encoded_image = request_args['image']
+      action = request_json['action']
+    else:
+      print("Image cannot be received")
+      image_received = False
+
+    encoded_string = ""
+    if(image_received):
+      # Decode the base64 string into binary data
+      image_data = base64.b64decode(encoded_image)
+
+      # Convert the binary data to a numpy array
+      image = cv2.imdecode(np.frombuffer(image_data,dtype=np.uint8), cv2.IMREAD_COLOR)
+      print(image)
+
+      previous_image = image
+      #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+      if(action == "blurring"):
+        image = gaussian_blurring(image)
+        # if not np.array_equal(previous_image, image):
+        #   print("Image is blurred")
+      elif(action == "bw"):
+        image = convert_to_black_and_white(image)
+
+      encoded_string = encode_image_to_base64(image)
+
     #print("Encoded String: ", encoded_string)
 
     if request_json and 'name' in request_json:
