@@ -4,7 +4,7 @@ import base64
 
 import cv2
 import numpy as np
-from helper_functions import gaussian_blurring, convert_to_black_and_white, convert_text_color
+from helper_functions import gaussian_blurring, convert_to_black_and_white, convert_text_color, help_func
 
 from encoder import encode_image_to_base64
 
@@ -22,6 +22,9 @@ def hello_http(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
+    if request_json['action'] == "help":
+      help_func() # Prints help documentation
+    
     image_received = True
 
     if request_json and 'image' in request_json:
