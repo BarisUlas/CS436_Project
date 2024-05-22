@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yaml
+    kompose.version: 1.33.0 (HEAD)
+  labels:
+    io.kompose.service: socketio
+  name: socketio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: socketio
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml
+        kompose.version: 1.33.0 (HEAD)
+      labels:
+        io.kompose.network/cs436-project-default: "true"
+        io.kompose.service: socketio
+    spec:
+      containers:
+        - env:
+            - name: CLIENT_PORT
+              value: "80"
+            - name: EXPRESS_PORT
+              value: "8000"
+            - name: FRONTEND_BASE_URL
+              value: localhost
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: SOCKET_IO_PORT
+              value: "8001"
+          image: socketio
+          name: socketio
+          ports:
+            - containerPort: 8001
+              hostPort: 8001
+              protocol: TCP
+      restartPolicy: Always
