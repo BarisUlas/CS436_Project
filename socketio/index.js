@@ -10,9 +10,7 @@ console.log(PORT, ORIGIN);
 
 const io = new Server.Server(server, {
   pingTimeout: 60000,
-  cors: {
-    origin: ORIGIN,
-  },
+  cors: {},
 });
 
 io.on("connection", (socket) => {

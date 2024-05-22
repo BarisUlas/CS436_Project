@@ -3,8 +3,9 @@ WORKDIR /app
 
 RUN mkdir node_modules
 COPY package.json .
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
+

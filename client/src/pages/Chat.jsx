@@ -14,7 +14,7 @@ import Picker from '@emoji-mart/react'
 import { getChatName } from '../utils/logics';
 import Typing from '../components/ui/Typing';
 import { validUser } from '../apis/auth';
-const ENDPOINT = process.env.REACT_APP_SERVER_URL
+const ENDPOINT = "http://localhost:8001"
 let socket, selectedChatCompare;
 
 function Chat(props) {

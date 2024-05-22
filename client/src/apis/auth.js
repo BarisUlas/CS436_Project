@@ -1,76 +1,79 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const API = (token) =>
   axios.create({
-    baseURL: process.env.REACT_APP_SERVER_URL,
-    headers: { Authorization: token },
-  });
+    baseURL: import.meta.env.VITE_PUBLIC_SERVER_URL,
+    headers: { Authorization: token }
+  })
 
-let url = process.env.REACT_APP_SERVER_URL;
+let url = import.meta.env.VITE_PUBLIC_SERVER_URL
 
 export const loginUser = async (body) => {
   try {
-    return await axios.post(`${url}/auth/login`, body);
+    console.log('here')
+    const res = await axios.post(`${url}/auth/login`, body)
+    console.log(res)
   } catch (error) {
-    console.log("error in loginuser api");
+    console.log('error in loginuser api', error)
+    return { data: error }
   }
-};
+}
 
 export const googleAuth = async (body) => {
   try {
-    return await axios.post(`${url}/api/google`, body);
+    return await axios.post(`${url}/api/google`, body)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const registerUser = async (body) => {
   try {
-    return await axios.post(`${url}/auth/register`, body);
+    return await axios.post(`${url}/auth/register`, body)
   } catch (error) {
-    console.log("error in register api");
+    console.log('error in register api')
   }
-};
+}
 
 export const validUser = async () => {
   try {
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem('userToken')
 
     const { data } = await API(token).get(`/auth/valid`, {
-      headers: { Authorization: token },
-    });
-    return data;
+      headers: { Authorization: token }
+    })
+    return data
   } catch (error) {
-    console.log("error in valid user api");
+    console.log('error in valid user api')
   }
-};
+}
 export const searchUsers = async (id) => {
   try {
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem('userToken')
 
-    return await API(token).get(`/api/user?search=${id}`);
+    return await API(token).get(`/api/user?search=${id}`)
   } catch (error) {
-    console.log("error in search users api");
+    console.log('error in search users api')
   }
-};
+}
 export const updateUser = async (id, body) => {
   try {
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem('userToken')
 
-    const { data } = await API(token).patch(`/api/users/update/${id}`, body);
-    return data;
+    const { data } = await API(token).patch(`/api/users/update/${id}`, body)
+    return data
   } catch (error) {
-    console.log("error in update user api");
-    toast.error("Something Went Wrong.try Again!");
+    console.log('error in update user api')
+    toast.error('Something Went Wrong.try Again!')
   }
-};
+}
 
 export const checkValid = async () => {
-  const data = await validUser();
+  const data = await validUser()
   if (!data?.user) {
-    window.location.href = "/login";
+    window.location.href = '/login'
   } else {
-    window.location.href = "/chats";
+    window.location.href = '/chats'
   }
-};
+}

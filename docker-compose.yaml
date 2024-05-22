@@ -9,7 +9,8 @@ services:
     ports:
       - "${CLIENT_PORT}:${CLIENT_PORT}"
     volumes:
-      - ./client/:/app/
+      - ./client/public:/app/public
+      - ./client/src:/app/src
     env_file:
       - ./client/.env
       - ./.env
