@@ -35,8 +35,7 @@ services:
       - ./.env
 
   mongo:
-    image: arm64v8/mongo:latest
-    platform: linux/arm64/v8
+    image: mongo:latest
     restart: always
     ports:
       - "${MONGODB_PORT}:${MONGODB_PORT}"

@@ -58,10 +58,9 @@ services:
         published: "8000"
         protocol: tcp
   mongo:
-    image: arm64v8/mongo:latest
+    image: mongo:latest
     networks:
       default: null
-    platform: linux/arm64/v8
     ports:
       - mode: ingress
         target: 27017
