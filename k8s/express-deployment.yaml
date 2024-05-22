@@ -36,7 +36,6 @@ spec:
             - name: URL
               value: mongodb://mongo:27017
           image: express
-          imagePullPolicy: IfNotPresent  # or IfNotPresent
           name: express
           ports:
             - containerPort: 8000

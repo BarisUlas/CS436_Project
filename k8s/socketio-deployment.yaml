@@ -34,7 +34,6 @@ spec:
             - name: SOCKET_IO_PORT
               value: "8001"
           image: socketio
-          imagePullPolicy: IfNotPresent  # or IfNotPresent
           name: socketio
           ports:
             - containerPort: 8001

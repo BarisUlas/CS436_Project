@@ -36,7 +36,6 @@ spec:
             - name: VITE_PUBLIC_SERVER_URL
               value: http://localhost:8000
           image: client
-          imagePullPolicy: IfNotPresent  # or IfNotPresent
           name: client
           ports:
             - containerPort: 80
