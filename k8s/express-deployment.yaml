@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yaml
+    kompose.cmd: kompose convert -f ../docker-compose-resolved.yaml
     kompose.version: 1.33.0 (HEAD)
   labels:
     io.kompose.service: express
@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yaml
+        kompose.cmd: kompose convert -f ../docker-compose-resolved.yaml
         kompose.version: 1.33.0 (HEAD)
       labels:
         io.kompose.network/cs436-project-default: "true"
