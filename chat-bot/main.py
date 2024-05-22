@@ -22,8 +22,9 @@ def hello_http(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
-    if request_json['action'] == "help":
-      help_func() # Prints help documentation
+    if request_json and 'action' in request_json:
+        if request_json['action'] == "help":
+          return "There are 2 image processing options you can apply to your image:\nOption 1: You can blur the image by selecting option 1 (Please write \"!bot blur\" for option 1)\nOption 2: You can convert the image background to black and white (Please write \"!bot bw\" for option 2)\nif you send a help command, this help documentation emerges :)\n"
     
     image_received = True
 
@@ -57,6 +58,7 @@ def hello_http(request):
         image = convert_to_black_and_white(image)
 
       encoded_string = encode_image_to_base64(image)
+      return encoded_string
 
     #print("Encoded String: ", encoded_string)
 
