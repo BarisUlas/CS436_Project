@@ -2,7 +2,7 @@ name: cs436_project
 services:
   client:
     build:
-      context: /Users/baris/CS436_Project/client
+      context: ./client
       dockerfile: Dockerfile
     depends_on:
       express:
@@ -26,18 +26,18 @@ services:
         protocol: tcp
     volumes:
       - type: bind
-        source: /Users/baris/CS436_Project/client/public
+        source: ./client/public
         target: /app/public
         bind:
           create_host_path: true
       - type: bind
-        source: /Users/baris/CS436_Project/client/src
+        source: ./client/src
         target: /app/src
         bind:
           create_host_path: true
   express:
     build:
-      context: /Users/baris/CS436_Project/express
+      context: ./express
       dockerfile: Dockerfile
     depends_on:
       mongo:
@@ -69,7 +69,7 @@ services:
     restart: always
   socketio:
     build:
-      context: /Users/baris/CS436_Project/socketio
+      context: ./socketio
       dockerfile: Dockerfile
     environment:
       CLIENT_PORT: "80"
