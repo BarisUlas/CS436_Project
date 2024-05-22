@@ -35,7 +35,7 @@ spec:
               value: "8001"
             - name: VITE_PUBLIC_SERVER_URL
               value: http://localhost:8000
-          image: client
+          image: cs436_project-client
           imagePullPolicy: Never
           name: client
           ports:
