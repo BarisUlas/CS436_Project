@@ -33,7 +33,7 @@ spec:
               value: "27017"
             - name: SOCKET_IO_PORT
               value: "8001"
-          image: socketio:local
+          image: "socketio:local"
           imagePullPolicy: Never
           name: socketio
           ports:

@@ -35,7 +35,7 @@ spec:
               value: "8001"
             - name: URL
               value: mongodb://mongo:27017
-          image: express:local
+          image: "express:local"
           imagePullPolicy: Never
           name: express
           ports:
