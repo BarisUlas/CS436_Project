@@ -34,7 +34,7 @@ spec:
             - name: SOCKET_IO_PORT
               value: "8001"
             - name: VITE_PUBLIC_SERVER_URL
-              value: http://localhost:8000
+              value: http://express:8000
           image: "client:local"
           imagePullPolicy: Never
           name: client

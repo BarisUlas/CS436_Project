@@ -16,7 +16,7 @@ services:
       EXPRESS_PORT: "8000"
       MONGODB_PORT: "27017"
       SOCKET_IO_PORT: "8001"
-      VITE_PUBLIC_SERVER_URL: http://localhost:8000
+      VITE_PUBLIC_SERVER_URL: http://express:8000
     networks:
       default: null
     ports:
