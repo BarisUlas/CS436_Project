@@ -14,6 +14,7 @@ export const loginUser = async (body) => {
     console.log('here')
     const res = await axios.post(`${url}/auth/login`, body)
     console.log(res)
+    return res;
   } catch (error) {
     console.log('error in loginuser api', error)
     return { data: error }
