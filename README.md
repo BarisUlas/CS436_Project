@@ -28,7 +28,7 @@
 
 ## Initial mockup of the cloud architecture
 
-![Initial mockup of the cloud architecture](./CS%20436%20Mock%20Structure.png)
+![Initial mockup of the cloud architecture](https://i.imgur.com/awlnXV7.png)
 
 ## Project Plan 
 

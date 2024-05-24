@@ -1,0 +1,65 @@
+name: Build and Push Docker Image
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        version: 'latest'
+
+    - name: Authenticate to Google Cloud
+      env:
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD }}
+      run: echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
+
+    - name: Configure Docker for gcloud
+      run: |
+        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
+        gcloud config set project pristine-clone-339910
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: where am i
+      run: pwd && ls
+
+    - name: Set permissions for .env.example files
+      run: |
+        chmod +x .env.example
+        chmod +x socketio/.env.example
+        chmod +x client/.env.example
+        chmod +x express/.env.example
+
+    - name: Move/Rename .env.example files
+      run: |
+        mv .env.example .env
+        mv socketio/.env.example socketio/.env
+        mv client/.env.example client/.env
+        mv express/.env.example express/.env
+        
+    - name: Update images
+      run: ./update_images.sh
+
+    - name: Change GCP Key (baris)
+      env:
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_BARIS }}
+      run: |
+        rm -rf /tmp/service-account-key.json
+        echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
+
+    - name: GCP auth (baris)
+      run: |
+        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
+        gcloud config set project cloudprojtrial\
+
+    - name: get clusters (baris)
+      run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project cloudprojtrial
+
+    - name: run sh
+      run: ./create_services.sh
