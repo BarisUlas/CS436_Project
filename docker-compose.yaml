@@ -40,3 +40,8 @@ services:
     ports:
       - "${MONGODB_PORT}:${MONGODB_PORT}"
 
+  nginx:
+    build:
+      context: ./nginx/
+    ports:
+      - "${NGINX_PORT}:${NGINX_PORT}"

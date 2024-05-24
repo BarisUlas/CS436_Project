@@ -1,7 +1,7 @@
 import axios from 'axios'
 const API = (token) =>
   axios.create({
-    baseURL: import.meta.env.VITE_PUBLIC_SERVER_URL,
+    baseURL: '',
     headers: { Authorization: token }
   })
 export const sendMessage = async (body) => {

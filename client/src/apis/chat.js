@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 const API = (token) =>
   axios.create({
-    baseURL: import.meta.env.VITE_PUBLIC_SERVER_URL,
+    baseURL: '',
     headers: { Authorization: token }
   })
 export const acessCreate = async (body) => {

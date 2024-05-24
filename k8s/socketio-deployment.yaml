@@ -24,7 +24,7 @@ spec:
       containers:
         - env:
             - name: CLIENT_PORT
-              value: "80"
+              value: "3000"
             - name: EXPRESS_PORT
               value: "8000"
             - name: FRONTEND_BASE_URL

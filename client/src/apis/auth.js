@@ -3,32 +3,16 @@ import { toast } from 'react-toastify'
 
 const API = (token) =>
   axios.create({
-    baseURL: import.meta.env.VITE_PUBLIC_SERVER_URL,
+    baseURL: '',
     headers: { Authorization: token }
   })
 
-let url = import.meta.env.VITE_PUBLIC_SERVER_URL
-
 export const loginUser = async (body) => {
-  let data = JSON.stringify({
-    firstname: 'a',
-    lastname: 'b',
-    email: 'krazy2@gmail.com',
-    password: 'krazy'
-  })
-
-  let config = {
-    method: 'post',
-    maxBodyLength: Infinity,
-    url: 'http://express:8000/auth/register',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: data
+  try {
+    return await axios.post(`/api/auth/login`, body)
+  } catch (error) {
+    return { data: error }
   }
-
-  const res = await axios.request(config)
-  return res
 }
 
 export const googleAuth = async (body) => {
@@ -41,7 +25,7 @@ export const googleAuth = async (body) => {
 
 export const registerUser = async (body) => {
   try {
-    return await axios.post(`${url}/auth/register`, body)
+    return await axios.post(`/api/auth/register`, body)
   } catch (error) {
     console.log('error in register api')
   }
