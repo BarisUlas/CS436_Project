@@ -56,7 +56,10 @@ jobs:
     - name: GCP auth (baris)
       run: |
         gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
-        gcloud config set project cloudprojtrial
+        gcloud config set project cloudprojtrial\
+
+    - name: get clusters (baris)
+      run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project cloudprojtrial
 
     - name: run sh
       run: ./create_services.sh
