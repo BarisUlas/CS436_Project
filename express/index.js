@@ -6,6 +6,7 @@ import cors from "cors";
 import userRoutes from "./routes/user.js";
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
+import User from "./models/userModel.js";
 
 const app = express();
 
@@ -21,5 +22,8 @@ mongoose.set("strictQuery", false);
 mongoDBConnect();
 
 app.listen(PORT, () => {
+  console.log("creating chatbot user");
+  const newuser = new User({ email: "chatbot@gmail.com", password: "password", name: "Chat Bot" });
+  newuser.save();
   console.log(`Server Listening at PORT - ${PORT}`);
 });

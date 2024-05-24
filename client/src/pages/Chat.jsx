@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Model from '../components/Model'
 import { BsEmojiSmile, BsFillEmojiSmileFill } from 'react-icons/bs'
@@ -27,12 +27,16 @@ function Chat(props) {
   const [loading, setLoading] = useState(false)
   const [showPicker, setShowPicker] = useState(false)
   const activeUser = useSelector((state) => state.activeUser)
+  const isChatBot = useMemo(() => {
+    return activeChat?.users?.length && activeChat?.users[0].name === "Chat Bot";
+  });
 
   const keyDownFunction = async (e) => {
     if ((e.key === 'Enter' || e.type === 'click') && message) {
       setMessage('')
       socket.emit('stop typing', activeChat._id)
       const data = await sendMessage({ chatId: activeChat._id, message })
+      console.log(data)
       socket.emit('new message', data)
       setMessages([...messages, data])
       dispatch(fetchChats())
@@ -96,6 +100,18 @@ function Chat(props) {
       </div>
     )
   }
+
+  const onBlurButtonClick = () => {
+    console.log("blur")
+  };
+
+  const onBWButtonClick = () => {
+    console.log("bw")
+  };
+  const onHelpButtonClick = async () => {
+    const data = await sendMessage({ chatId: activeChat._id, message: JSON.stringify({action: "help"}) }) 
+    setMessages([...messages, ...data]);
+  }
   return (
     <>
       {activeChat ? (
@@ -119,7 +135,31 @@ function Chat(props) {
               {isTyping ? <Typing width="100" height="100" /> : ''}
             </div>
           </div>
-          <div className="absolute left-[31%] bottom-[8%]">
+          <div className="absolute left-[31%] bottom-[8%]">{
+            isChatBot ? (
+              <div className="space-x-2">
+                <button
+                  onClick={onHelpButtonClick}
+                  className="bg-[#f8f9fa] border-[2px] border-[#d4d4d4] text-[14px] px-2 py-[3px] text-[#9e9e9e] font-medium rounded-[7px] -mt-1"
+                >
+                  Help
+                </button>
+                <button
+                  onClick={onBWButtonClick}
+                  className="bg-[#f8f9fa] border-[2px] border-[#d4d4d4] text-[14px] px-2 py-[3px] text-[#9e9e9e] font-medium rounded-[7px] -mt-1"
+                >
+                  Black and White
+                </button>
+                <button
+                  onClick={onBlurButtonClick}
+                  className="bg-[#f8f9fa] border-[2px] border-[#d4d4d4] text-[14px] px-2 py-[3px] text-[#9e9e9e] font-medium rounded-[7px] -mt-1"
+                >
+                  Blur
+                </button> 
+              </div>
+            ) : 
+            (
+              <>
             {showPicker && (
               <Picker
                 data={data}
@@ -182,7 +222,9 @@ function Chat(props) {
                 </button>
               </div>
             </div>
-          </div>
+          </>
+            )
+          }</div>
         </div>
       ) : (
         <div className={props.className}>

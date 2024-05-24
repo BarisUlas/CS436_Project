@@ -1,6 +1,7 @@
 import user from "../models/userModel.js";
-import bcrypt from "bcryptjs";
+import Chat from "../models/chatModel.js";
 import { OAuth2Client } from "google-auth-library";
+
 export const register = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   try {
@@ -10,7 +11,13 @@ export const register = async (req, res) => {
     const fullname = firstname + " " + lastname;
     const newuser = new user({ email, password, name: fullname });
     const token = await newuser.generateAuthToken();
-    await newuser.save();
+    const savedUser = await newuser.save();
+    const chatBot = await user.findOne({email: "chatbot@gmail.com"});
+    await Chat.create({
+      chatName: 'sender',
+      users: [chatBot._id, savedUser._id],
+      isGroup: false,
+    });
     res.json({ message: "success", token: token });
   } catch (error) {
     console.log("Error in register " + error);

@@ -1,0 +1,5 @@
+const sendAudioToSpeechToText = () => {
+
+}
+
+export {sendAudioToSpeechToText};

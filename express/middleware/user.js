@@ -3,8 +3,7 @@ import user from '../models/userModel.js';
 
 export const Auth = async (req, res, next) => {
   try {
-    let token = req.headers.authorization.split(' ')[0]; //when using browser this line
-    // let token = req.headers.authorization.split(' ')[1]; //when using postman this line
+    const token = req.headers.authorization.split(' ').find((s) => s.startsWith("ey"))
     if (token.length < 500) {
       const verifiedUser = jwt.verify(token, process.env.SECRET);
       const rootUser = await user

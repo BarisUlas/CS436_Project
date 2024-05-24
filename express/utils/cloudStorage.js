@@ -1,0 +1,5 @@
+const uploadToCloudStorage = () => {
+
+}
+
+export {uploadToCloudStorage}
