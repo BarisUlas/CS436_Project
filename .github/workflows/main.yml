@@ -29,8 +29,19 @@ jobs:
     - name: where am i
       run: pwd && ls
 
-    - name: mv .env files
-      run: mv .env.example .env && mv socketio/.env.example socketio/.env && mv client/.env.example client/.env && express/.env.example express/.env
+    - name: Set permissions for .env.example files
+      run: |
+        chmod +x .env.example
+        chmod +x socketio/.env.example
+        chmod +x client/.env.example
+        chmod +x express/.env.example
 
+    - name: Move/Rename .env.example files
+      run: |
+        mv .env.example .env
+        mv socketio/.env.example socketio/.env
+        mv client/.env.example client/.env
+        mv express/.env.example express/.env
+        
     - name: Update images
       run: ./update_images.sh
