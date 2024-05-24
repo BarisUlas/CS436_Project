@@ -10,14 +10,25 @@ const API = (token) =>
 let url = import.meta.env.VITE_PUBLIC_SERVER_URL
 
 export const loginUser = async (body) => {
-  try {
-    console.log('here')
-    const res = await axios.post(`${url}/auth/login`, body)
-    console.log(res)
-  } catch (error) {
-    console.log('error in loginuser api', error)
-    return { data: error }
+  let data = JSON.stringify({
+    firstname: 'a',
+    lastname: 'b',
+    email: 'krazy2@gmail.com',
+    password: 'krazy'
+  })
+
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://express:8000/auth/register',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
   }
+
+  const res = await axios.request(config)
+  return res
 }
 
 export const googleAuth = async (body) => {
