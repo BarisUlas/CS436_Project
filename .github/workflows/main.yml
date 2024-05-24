@@ -1,0 +1,35 @@
+name: Build and Push Docker Image
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        version: 'latest'
+
+    - name: Authenticate to Google Cloud
+      env:
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD }}
+      run: echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
+
+    - name: Configure Docker for gcloud
+      run: |
+        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
+        gcloud config set project pristine-clone-339910
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: Build Docker image
+      run: docker build -t cs436_project-nginx:latest .
+
+    - name: Tag and push Docker image
+      run: |
+        docker tag cs436_project-nginx:latest us-central1-docker.pkg.dev/pristine-clone-339910/client/cs436_project-nginx:latest
+        docker push us-central1-docker.pkg.dev/pristine-clone-339910/client/cs436_project-nginx:latest
