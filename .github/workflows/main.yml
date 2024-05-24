@@ -26,8 +26,8 @@ jobs:
         gcloud config set project pristine-clone-339910
         gcloud auth configure-docker us-central1-docker.pkg.dev
 
-    - name: Build Docker image
-      run: docker build -t cs436_project-nginx:latest .
+    - name: where am i
+      run: pwd && ls
 
     - name: Tag and push Docker image
       run: |
