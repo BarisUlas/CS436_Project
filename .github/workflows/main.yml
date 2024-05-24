@@ -29,5 +29,8 @@ jobs:
     - name: where am i
       run: pwd && ls
 
+    - name: mv .env files
+      run: mv .env.example .env && mv socketio/.env.example socketio/.env.example && mv client/.env.example client/.env && express/.env.example express/.env
+
     - name: Update images
       run: ./update_images.sh
