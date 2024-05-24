@@ -45,3 +45,18 @@ jobs:
         
     - name: Update images
       run: ./update_images.sh
+
+    - name: Change GCP Key (baris)
+      env:
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_BARIS }}
+      run: |
+        rm -rf /tmp/service-account-key.json
+        echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
+
+    - name: GCP auth (baris)
+      run: |
+        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
+        gcloud config set project cloudprojtrial
+
+    - name: run sh
+      run: ./create_services.sh
