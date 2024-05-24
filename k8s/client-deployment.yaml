@@ -35,8 +35,7 @@ spec:
               value: "8001"
             - name: VITE_PUBLIC_SERVER_URL
               value: http://express:8000
-          image: "client:local"
-          imagePullPolicy: Never
+          image: "us-central1-docker.pkg.dev/pristine-clone-339910/client/cs436_project-client:latest"
           name: client
           ports:
             - containerPort: 80

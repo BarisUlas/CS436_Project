@@ -33,8 +33,7 @@ spec:
               value: "27017"
             - name: SOCKET_IO_PORT
               value: "8001"
-          image: "socketio:local"
-          imagePullPolicy: Never
+          image: "us-central1-docker.pkg.dev/pristine-clone-339910/client/cs436_project-socketio:latest"
           name: socketio
           ports:
             - containerPort: 8001
