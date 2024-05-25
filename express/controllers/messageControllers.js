@@ -1,7 +1,8 @@
 import Message from "../models/messageModel.js";
 import User from "../models/userModel.js";
 import Chat from "../models/chatModel.js";
-import {sendMessageToChatBot} from "../utils/chatBot.js";
+import { sendMessageToChatBot } from "../utils/chatBot.js";
+import { uploadToCloudStorage } from "../utils/cloudStorage.js";
 
 const send = async (sender, message, chatId) => {
   try {
@@ -28,7 +29,6 @@ const send = async (sender, message, chatId) => {
 }
 
 export const sendMessage = async (req, res) => {
-  console.log(req.body, req.rootUserId);
   const { chatId, message } = req.body;
   const chat = await Chat.findById(chatId);
   const userId = chat.users.find(item => JSON.stringify(item) !=JSON.stringify(req.rootUserId));
@@ -37,22 +37,28 @@ export const sendMessage = async (req, res) => {
     const parsedMessage = JSON.parse(message);
     try {
     const serverlessResponse = await sendMessageToChatBot(parsedMessage.action, parsedMessage.image ?? null);
+    console.log(serverlessResponse)
     const sendData = await send(req.rootUserId, parsedMessage.action, chatId);
     const getData = await send(userId, serverlessResponse, chatId);
     if (sendData.success && getData.success) {
     res.status(200).send([sendData.msg, getData.msg]); 
     } else {
+      console.log("sendData", sendData);
+      console.log("getData", getData)
       res.status(500).send(sendData.error ?? getData.error);
     }
 
     }
      catch (error) {
+      console.log("error is", error)
       res.status(500).send({error});
     }
     return;
   }
 
    if (req.body.type === "audio") {
+    const res = await uploadToCloudStorage(message, "flac");
+    console.log(res);
     
   }
   const response = await send(req.rootUserId, message, chatId);

@@ -43,7 +43,11 @@ function MessageHistory({ messages }) {
                   color: `${m.sender._id === activeUser.id ? "#ffff" : "#848587"}`
                 }}
               >
-                {m.message}
+                {
+                  m.message.startsWith("https://") ? (
+                   <img src={m.message} width={300} height={300} /> 
+                  ) : (<div>{m.message}</div>)
+                }
               </span>
             </div>
           ))
