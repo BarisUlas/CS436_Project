@@ -105,7 +105,11 @@ jobs:
         REPLICA_MODE: ${{ vars.REPLICA_MODE }}  # Access repository variable
 
     - name: Run Deployment Script
-      run: ./create_services_cicd.sh
+      run: |
+        kubectl delete -f $K8S_DIR
+        kubectl delete service nginx1 || true
+        kubectl apply -f $K8S_DIR
+        kubectl expose deployment nginx --name=nginx1 --type=LoadBalancer --port 80 --target-port 80
       env:
         K8S_DIR: ${{ env.K8S_DIR }}
         REPLICA_MODE: ${{ vars.REPLICA_MODE }}
