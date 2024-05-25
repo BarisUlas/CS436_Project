@@ -9,7 +9,7 @@
 ## Assigned tasks
 
 * Alper
-    * ! Dockerize and serve express server (nodejs)
+    * Dockerize and serve express server (nodejs)
     * Implement chat bot as a python app that runs on serverless
 
 * Barış
