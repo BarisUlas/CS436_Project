@@ -11,6 +11,16 @@ from encoder import png_to_base64
 from PIL import Image
 import io
 
+def base64_to_png(base64_string, output_file_path):
+    # Decode the base64 string into bytes
+    image_data = base64.b64decode(base64_string)
+    
+    # Create an image from the binary data
+    image = Image.open(io.BytesIO(image_data))
+    
+    # Save the image as a PNG file
+    image.save(output_file_path, 'PNG')
+
 @functions_framework.http
 def hello_http(request):
     """HTTP Cloud Function.
