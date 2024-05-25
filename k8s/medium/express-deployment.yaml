@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ../docker-compose-resolved.yaml
+    kompose.version: 1.33.0 (HEAD)
+  labels:
+    io.kompose.service: express
+  name: express
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: express
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ../docker-compose-resolved.yaml
+        kompose.version: 1.33.0 (HEAD)
+      labels:
+        io.kompose.network/cs436-project-default: "true"
+        io.kompose.service: express
+    spec:
+      containers:
+        - env:
+            - name: CLIENT_PORT
+              value: "3000"
+            - name: EXPRESS_PORT
+              value: "8000"
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: SECRET
+              value: drakeisapedofile
+            - name: SOCKET_IO_PORT
+              value: "8001"
+            - name: URL
+              value: mongodb://mongo:27017
+          image: "us-central1-docker.pkg.dev/pristine-clone-339910/client/cs436_project-express:latest"
+          imagePullPolicy: "Always"
+          name: express
+          ports:
+            - containerPort: 8000
+              hostPort: 8000
+              protocol: TCP
+      restartPolicy: Always
