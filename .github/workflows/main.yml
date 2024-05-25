@@ -70,20 +70,20 @@ jobs:
     - name: Update images
       run: ./update_images.sh
 
-    - name: Change GCP Key (baris)
+    - name: Change GCP Key (OKTAY)
       env:
-        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_BARIS }}
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_OKTAY }}
       run: |
         rm -rf /tmp/service-account-key.json
         echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
 
-    - name: GCP auth (baris)
+    - name: GCP auth (OKTAY)
       run: |
         gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
-        gcloud config set project cloudprojtrial\
+        gcloud config set project linen-setting-417209\
 
-    - name: get clusters (baris)
-      run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project cloudprojtrial
+    - name: get clusters (OKTAY)
+      run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project linen-setting-417209
     
     - name: install gke auth plugin
       run: gcloud components install gke-gcloud-auth-plugin
