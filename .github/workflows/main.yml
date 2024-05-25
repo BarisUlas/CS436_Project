@@ -10,6 +10,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Print REPLICA_MODE
+      run: echo "REPLICA_MODE is $REPLICA_MODE"
+      env:
+        REPLICA_MODE: ${{ vars.REPLICA_MODE }}  # Access repository variable
+
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
