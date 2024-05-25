@@ -60,6 +60,9 @@ jobs:
 
     - name: get clusters (baris)
       run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project cloudprojtrial
-
+    
+    - name: install gke auth plugin
+      run: gcloud components install gke-gcloud-auth-plugin
+      
     - name: run sh
       run: ./create_services.sh
