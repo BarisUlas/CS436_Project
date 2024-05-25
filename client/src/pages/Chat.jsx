@@ -132,7 +132,7 @@ function Chat(props) {
     reader.readAsDataURL(file);
     reader.onload = async function () {
       const data = await sendMessage({ chatId: activeChat._id, message: JSON.stringify({action: event, image: reader.result}) }) 
-      setMessages([...messages, data]);
+      setMessages([...messages, ...data]);
     };
     reader.onerror = function (error) {
         console.log('Error: ', error);
