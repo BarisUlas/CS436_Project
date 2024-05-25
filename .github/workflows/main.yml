@@ -17,11 +17,11 @@ jobs:
       id: set-dirr
       run: |
         if [ "$REPLICA_MODE" == "0" ]; then
-          echo "K8S_DIR=k8s/low" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/low" >> $GITHUB_ENV
         elif [ "$REPLICA_MODE" == "1" ]; then
-          echo "K8S_DIR=k8s/medium" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/medium" >> $GITHUB_ENV
         elif [ "$REPLICA_MODE" == "2" ]; then
-          echo "K8S_DIR=k8s/high" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/high" >> $GITHUB_ENV
         else
           echo "Invalid REPLICA_MODE value. Must be 0, 1, or 2."
           exit 1
@@ -92,11 +92,11 @@ jobs:
       id: set-dir
       run: |
         if [ "$REPLICA_MODE" == "0" ]; then
-          echo "K8S_DIR=k8s/low" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/low" >> $GITHUB_ENV
         elif [ "$REPLICA_MODE" == "1" ]; then
-          echo "K8S_DIR=k8s/medium" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/medium" >> $GITHUB_ENV
         elif [ "$REPLICA_MODE" == "2" ]; then
-          echo "K8S_DIR=k8s/high" >> $GITHUB_ENV
+          echo "K8S_DIR=./k8s/high" >> $GITHUB_ENV
         else
           echo "Invalid REPLICA_MODE value. Must be 0, 1, or 2."
           exit 1
