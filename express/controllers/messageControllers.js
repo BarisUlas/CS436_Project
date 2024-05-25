@@ -3,10 +3,11 @@ import User from "../models/userModel.js";
 import Chat from "../models/chatModel.js";
 import { sendMessageToChatBot } from "../utils/chatBot.js";
 import { uploadToCloudStorage } from "../utils/cloudStorage.js";
+import { sendAudioToSpeechToText } from "../utils/speechToText.js";
 
-const send = async (sender, message, chatId) => {
+const send = async (sender, message, chatId, type="text") => {
   try {
-    let msg = await Message.create({ sender, message, chatId });
+    let msg = await Message.create({ sender, message, chatId, type });
     msg = await (
       await msg.populate("sender", "name profilePic email")
     ).populate({
@@ -57,9 +58,16 @@ export const sendMessage = async (req, res) => {
   }
 
    if (req.body.type === "audio") {
-    const res = await uploadToCloudStorage(message, "flac");
-    console.log(res);
-    
+    const [uri, url] = await uploadToCloudStorage(message, "mp3", true);
+    const transcription = await sendAudioToSpeechToText(uri);
+    const response = await send(req.rootUserId, JSON.stringify({url, transcription}), chatId, "audio");
+    if (response.success) {
+      res.status(200).send(response.msg);
+  
+    } else {
+      res.status(500).send(response.error);
+    }
+    return;
   }
   const response = await send(req.rootUserId, message, chatId);
   if (response.success) {

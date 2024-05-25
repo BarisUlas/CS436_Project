@@ -157,7 +157,7 @@ function Chat(props) {
   return (
     <>
     <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onChange={handleFile} accept=".png" />
-    <input type='file' id='voice' ref={voiceFile} style={{display: 'none'}} onChange={handleVoice} accept='.flac' />
+    <input type='file' id='voice' ref={voiceFile} style={{display: 'none'}} onChange={handleVoice} accept='.mp3' />
       {activeChat ? (
         <div className={props.className}>
           <div className="flex justify-between items-center px-5 bg-[#ffff] w-[100%]">
