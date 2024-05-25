@@ -4,6 +4,8 @@ import ScrollableFeed from "react-scrollable-feed"
 import { isSameSender, isSameSenderMargin, isSameUser, isLastMessage } from '../utils/logics'
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
+import ReactPlayer from 'react-player'
+
 import "../pages/home.css"
 function MessageHistory({ messages }) {
   const activeUser = useSelector((state) => state.activeUser)
@@ -44,7 +46,14 @@ function MessageHistory({ messages }) {
                 }}
               >
                 {
-                  m.message.startsWith("https://") ? (
+                  m.type === "audio" ? (
+                    <div>
+                      <audio controls className='bg-transparent' style={{backgroundColor: "transparent"}}>
+  <source src={JSON.parse(m.message).url} type="audio/mp3" style={{backgroundColor: "transparent"}} />
+</audio>
+<div>{JSON.parse(m.message).transcription}</div>
+                    </div>
+                  ) : m.message.startsWith("https://") ? (
                    <img src={m.message} width={300} height={300} /> 
                   ) : (<div>{m.message}</div>)
                 }

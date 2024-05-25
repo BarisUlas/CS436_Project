@@ -18,7 +18,7 @@ const storage = new Storage({
   keyFilename: "key.json",
 });
 
-const uploadToCloudStorage = async (base64, extension) => {
+const uploadToCloudStorage = async (base64, extension, bucket=false) => {
     console.log('base 64 is.....')
     console.log(base64.substring(0,100));
     const buffer = Buffer.from(base64, "base64");
@@ -32,6 +32,10 @@ const uploadToCloudStorage = async (base64, extension) => {
             destination: storagepath,
             predefinedAcl: 'publicRead', // Set the file to be publicly readable
         });
+        console.log(result);
+        if (bucket) {
+            return [`gs://${result[0].bucket.name}/${result[0].name}`, result[0].metadata.mediaLink];
+        }
         return result[0].metadata.mediaLink;
     } catch (error) {
         console.log(error);
