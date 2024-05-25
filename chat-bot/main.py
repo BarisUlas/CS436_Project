@@ -6,7 +6,10 @@ import cv2
 import numpy as np
 from helper_functions import gaussian_blurring, convert_to_black_and_white, help_func
 
-from encoder import encode_image_to_base64
+from encoder import png_to_base64
+
+from PIL import Image
+import io
 
 @functions_framework.http
 def hello_http(request):
