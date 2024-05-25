@@ -35,10 +35,10 @@ def hello_http(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
-    if request_json and 'action' in request_json:
-        if request_json['action'] == "help":
-          return "There are 2 image processing options you can apply to your image:\nOption 1: You can blur the image by selecting option 1 (Please write \"!bot blur\" for option 1)\nOption 2: You can convert the image background to black and white (Please write \"!bot bw\" for option 2)\nif you send a help command, this help documentation emerges :)\n"
-    
+    if request_json and "action" in request_json:
+      if request_json['action'] == "help":
+        return "There are 2 image processing options you can apply to your image:\nOption 1: You can blur the image by selecting option 1 (Please write \"!bot blur\" for option 1)\nOption 2: You can convert the image background to black and white (Please write \"!bot bw\" for option 2)\nif you send a help command, this help documentation emerges :)\n"
+
     image_received = True
 
     if request_json and 'image' in request_json:
@@ -54,32 +54,24 @@ def hello_http(request):
     encoded_string = ""
     if(image_received):
       # Decode the base64 string into binary data
-      image_data = base64.b64decode(encoded_image)
+      base64_to_png(encoded_image, "out.png")
+
+      img = cv2.imread("out.png")
 
       # Convert the binary data to a numpy array
-      image = cv2.imdecode(np.frombuffer(image_data,dtype=np.uint8), cv2.IMREAD_COLOR)
-      print(image)
+      image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-      previous_image = image
       #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
       if(action == "blurring"):
-        image = gaussian_blurring(image)
-        # if not np.array_equal(previous_image, image):
-        #   print("Image is blurred")
+        image = gaussian_blurring(image_rgb)
+        cv2.imwrite("blurred_image.png", cv2.cvtColor(image, cv2.COLOR_RGB2BGR))  # Convert back to BGR before saving
+        encoded_string = png_to_base64("./blurred_image.png")
       elif(action == "bw"):
-        image = convert_to_black_and_white(image)
-
-      encoded_string = encode_image_to_base64(image)
+        image = convert_to_black_and_white(image_rgb)
+        cv2.imwrite("bw_image.png", image)
+        encoded_string = png_to_base64("./bw_image.png")
+        
       return encoded_string
 
-    #print("Encoded String: ", encoded_string)
-
-    if request_json and 'name' in request_json:
-        name = request_json['name']
-    elif request_args and 'name' in request_args:
-        name = request_args['name']
-    else:
-        name = 'World'
-
-    return name #change this with encoded image
+    return ("Please give valid arguments", 200) #change this with encoded image
