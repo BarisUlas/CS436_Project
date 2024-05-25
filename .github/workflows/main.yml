@@ -1,6 +1,9 @@
 name: Build and Push Docker Image
 
-on: push
+on:
+  push:
+    branches:
+      - main  
 
 jobs:
   build:
@@ -60,6 +63,25 @@ jobs:
 
     - name: get clusters (baris)
       run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project cloudprojtrial
+    
+    - name: install gke auth plugin
+      run: gcloud components install gke-gcloud-auth-plugin
 
+    - name: Set k8s directory based on REPLICA_MODE
+      id: set-dir
+      run: |
+        if [ "$REPLICA_MODE" == "0" ]; then
+          echo "K8S_DIR=k8s/low" >> $GITHUB_ENV
+        elif [ "$REPLICA_MODE" == "1" ]; then
+          echo "K8S_DIR=k8s/medium" >> $GITHUB_ENV
+        elif [ "$REPLICA_MODE" == "2" ]; then
+          echo "K8S_DIR=k8s/high" >> $GITHUB_ENV
+        else
+          echo "Invalid REPLICA_MODE value. Must be 0, 1, or 2."
+          exit 1
+        fi
+      env:
+        REPLICA_MODE: ${{ vars.REPLICA_MODE }}  # Access repository variable
+      
     - name: run sh
-      run: ./create_services.sh
+      run: ./create_services_cicd.sh
