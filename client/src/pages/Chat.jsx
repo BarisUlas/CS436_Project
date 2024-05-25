@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react'
+import  { useState, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Model from '../components/Model'
 import { BsEmojiSmile, BsFillEmojiSmileFill } from 'react-icons/bs'
+import { MdKeyboardVoice } from "react-icons/md";
 import { fetchMessages, sendMessage } from '../apis/messages'
 import { useEffect } from 'react'
 import MessageHistory from '../components/MessageHistory'
@@ -19,6 +20,7 @@ let socket, selectedChatCompare
 function Chat(props) {
   const { activeChat, notifications } = useSelector((state) => state.chats)
   const dispatch = useDispatch()
+  const [event, setEvent] = useState(null);
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const [socketConnected, setSocketConnected] = useState(false)
@@ -30,6 +32,9 @@ function Chat(props) {
   const isChatBot = useMemo(() => {
     return activeChat?.users?.length && activeChat?.users[0].name === "Chat Bot";
   });
+
+  const inputFile = useRef(null);
+  const voiceFile = useRef(null);
 
   const keyDownFunction = async (e) => {
     if ((e.key === 'Enter' || e.type === 'click') && message) {
@@ -102,18 +107,57 @@ function Chat(props) {
   }
 
   const onBlurButtonClick = () => {
-    console.log("blur")
+    setEvent("blurring");
+    inputFile.current.click();
   };
 
   const onBWButtonClick = () => {
-    console.log("bw")
+    setEvent("bw")
+    inputFile.current.click();
   };
+
   const onHelpButtonClick = async () => {
     const data = await sendMessage({ chatId: activeChat._id, message: JSON.stringify({action: "help"}) }) 
     setMessages([...messages, ...data]);
   }
+
+
+  const handleVoiceButtonClick = () => {
+    voiceFile.current.click();
+  }
+
+  const handleFile = async (e) => {
+    const file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async function () {
+      const data = await sendMessage({ chatId: activeChat._id, message: JSON.stringify({action: event, image: reader.result}) }) 
+      setMessages([...messages, data]);
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+  }
+  
+  const handleVoice = async (e) => {
+    const file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async function () {
+      const data = await sendMessage({ type: "audio", chatId: activeChat._id, message: reader.result }) 
+      setMessages([...messages, data]);
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+    
+  };
+
+
   return (
     <>
+    <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onChange={handleFile} accept=".png" />
+    <input type='file' id='voice' ref={voiceFile} style={{display: 'none'}} onChange={handleVoice} accept='.flac' />
       {activeChat ? (
         <div className={props.className}>
           <div className="flex justify-between items-center px-5 bg-[#ffff] w-[100%]">
@@ -199,20 +243,25 @@ function Chat(props) {
               </form>
             </div>
 
-            <div className="border-x-[1px] border-b-[1px] bg-[#f8f9fa] border-[#aabac8] px-6 py-3 w-[360px] sm:w-[400px] md:w-[350px] lg:w-[400px] rounded-b-[10px] h-[50px]">
+            <div className="border-x-[1px] border-b-[1px] bg-[#f8f9fa] border-[#aabac8] px-6 pl-3 py-3 w-[360px] sm:w-[400px] md:w-[350px] lg:w-[400px] rounded-b-[10px] h-[50px]">
               {/* {
                   isTyping ? <div>Loading</div> : ""
                 } */}
               <div className="flex justify-between items-start">
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setShowPicker(!showPicker)}
-                >
-                  {showPicker ? (
-                    <BsFillEmojiSmileFill className="w-[20px] h-[20px] text-[#ffb02e] border-[black]" />
-                  ) : (
-                    <BsEmojiSmile className="w-[20px] h-[20px]" />
-                  )}
+                <div className='flex'>
+                  <div className='cursor-pointer' onClick={handleVoiceButtonClick}>
+                    <MdKeyboardVoice className='w-[20px] h-[20px] border-[black] mr-2' />
+                  </div>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => setShowPicker(!showPicker)}
+                  >
+                    {showPicker ? (
+                      <BsFillEmojiSmileFill className="w-[20px] h-[20px] text-[#ffb02e] border-[black]" />
+                    ) : (
+                      <BsEmojiSmile className="w-[20px] h-[20px]" />
+                    )}
+                  </div>
                 </div>
                 <button
                   onClick={(e) => keyDownFunction(e)}
