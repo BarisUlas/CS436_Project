@@ -4,7 +4,7 @@ import base64
 
 import cv2
 import numpy as np
-from helper_functions import gaussian_blurring, convert_to_black_and_white, help_func
+from helper_functions import gaussian_blurring, convert_to_black_and_white
 
 from encoder import png_to_base64
 
@@ -20,6 +20,7 @@ def base64_to_png(base64_string, output_file_path):
     
     # Save the image as a PNG file
     image.save(output_file_path, 'PNG')
+
 
 @functions_framework.http
 def hello_http(request):
