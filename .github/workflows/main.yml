@@ -10,8 +10,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Print REPLICA_MODE
-      run: echo "REPLICA_MODE is $REPLICA_MODE"
+    - name: Set k8s directory based on REPLICA_MODE
+      id: set-dir2
+      run: |
+        if [ "$REPLICA_MODE" == "0" ]; then
+          echo 0
+        elif [ "$REPLICA_MODE" == "1" ]; then
+          echo 1
+        elif [ "$REPLICA_MODE" == "2" ]; then
+          echo 2
+        else
+          echo "Invalid REPLICA_MODE value. Must be 0, 1, or 2."
+          exit 1
+        fi
       env:
         REPLICA_MODE: ${{ vars.REPLICA_MODE }}  # Access repository variable
 
@@ -82,6 +93,8 @@ jobs:
           echo "Invalid REPLICA_MODE value. Must be 0, 1, or 2."
           exit 1
         fi
+      env:
+        REPLICA_MODE: ${{ vars.REPLICA_MODE }}  # Access repository variable
       
     - name: run sh
       run: ./create_services_cicd.sh
