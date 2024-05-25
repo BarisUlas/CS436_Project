@@ -83,7 +83,7 @@ jobs:
         gcloud config set project linen-setting-417209\
 
     - name: get clusters (OKTAY)
-      run: gcloud container clusters get-credentials cluster-new --zone us-central1-c --project linen-setting-417209
+      run: gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project linen-setting-417209
     
     - name: install gke auth plugin
       run: gcloud components install gke-gcloud-auth-plugin
