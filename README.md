@@ -1,5 +1,8 @@
 # CS436 Cloud Computing Group Project
 
+### Video link
+https://drive.google.com/file/d/1_oDQbA_5Es83zqCvyJbxoH5AUg4hLSlo/view?usp=share_link
+
 ### Group members
 * Alper Kaan Odabaşoğlu - 28147
 * Barış Ulaş Çukur - 29461
