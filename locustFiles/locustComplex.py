@@ -7,9 +7,11 @@ import requests
 
 fake = Faker()
 
+URL = "http://104.154.206.230"
+
 # Constants
-ENDPOINT = 'http://34.70.161.6/socket.io'
-API_URL = 'http://34.70.161.6/api/message/'
+ENDPOINT = f'{URL}/socket.io'
+API_URL = f'{URL}/api/message/'
 
 # Create a Socket.IO client instance
 sio = socketio.Client()
