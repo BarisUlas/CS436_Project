@@ -5,3 +5,4 @@ scripts
 .DS_Store
 
 .env
+locustFiles/venv/
