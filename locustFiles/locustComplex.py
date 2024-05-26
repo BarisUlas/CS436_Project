@@ -11,51 +11,49 @@ fake = Faker()
 ENDPOINT = 'http://34.70.161.6/socket.io'
 API_URL = 'http://34.70.161.6/api/message/'
 
-# Create a Socket.IO client instance
-sio = socketio.Client()
 NUM_FRIENDS = 10
 NUM_MESSAGE = 10
 # Define event handlers
 
 
-@sio.event
-def connect():
-    print('Connected to server')
-
-
-@sio.event
-def disconnect():
-    print('Disconnected from server')
-
-
-def send_message(body, token):
-    """
-    Send a message using an HTTP POST request.
-    """
-    try:
-        headers = {'Authorization': f'Bearer {token}'}
-        response = requests.post(API_URL, json=body, headers=headers)
-        response.raise_for_status()  # Raise an HTTPError on bad responses
-        return response.json()
-    except requests.RequestException as error:
-        print(f'Error in send_message API: {error}')
-        return None
-
-
-def send_message_and_emit(body, token):
-    """
-    Send a message to the server and emit the 'new message' event.
-    """
-
-    data = send_message(body, token)
-    if data:
-        sio.emit('new message', data)
-    else:
-        print('Failed to send message and emit event')
-
-
 class RegisterUser(HttpUser):
     wait_time = between(1, 5)  # Wait time between tasks
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.sio = socketio.Client()
+
+    def on_start(self):
+        self.sio.connect(API_URL)
+        print('Connected to server')
+
+    def on_stop(self):
+        self.sio.disconnect()
+        print('Disconnected from server')
+
+    def send_message(self, body, token):
+        """
+        Send a message using an HTTP POST request.
+        """
+        try:
+            headers = {'Authorization': f'Bearer {token}'}
+            response = requests.post(API_URL, json=body, headers=headers)
+            response.raise_for_status()  # Raise an HTTPError on bad responses
+            return response.json()
+        except requests.RequestException as error:
+            print(f'Error in send_message API: {error}')
+            return None
+
+    def send_message_and_emit(self, body, token):
+        """
+        Send a message to the server and emit the 'new message' event.
+        """
+
+        data = self.send_message(body, token)
+        if data:
+            self.sio.emit('new message', data)
+        else:
+            print('Failed to send message and emit event')
 
     @task
     def register_and_send_message(self):
@@ -109,9 +107,9 @@ class RegisterUser(HttpUser):
 
                         print(f"Created chat with {targetID}")
                         print(f"Chat ID with {chatID}")
-                        if not sio.connected:
+                        if not self.sio.connected:
                             try:
-                                sio.connect(ENDPOINT)
+                                self.sio.connect(ENDPOINT)
                             except socketio.exceptions.ConnectionError as e:
                                 print(
                                     f"Failed to connect to Socket.IO server: {e}")
@@ -126,7 +124,7 @@ class RegisterUser(HttpUser):
                             if option == 'text':
                                 print("Sent text message")
                                 body = {"chatId": chatID, "message": "text"}
-                                send_message_and_emit(body, token)
+                                self.send_message_and_emit(body, token)
                             elif option == 'voice':
                                 print("Sent voice message")
 
