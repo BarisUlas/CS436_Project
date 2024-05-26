@@ -109,7 +109,7 @@ jobs:
         kubectl delete -f $K8S_DIR --ignore-not-found=true
         kubectl delete service nginx1 || true
         kubectl apply -f $K8S_DIR
-        kubectl apply -f ./k8s/common"
+        kubectl apply -f ./k8s/common
         kubectl expose deployment nginx --name=nginx1 --type=LoadBalancer --port 80 --target-port 80
       env:
         K8S_DIR: ${{ env.K8S_DIR }}
