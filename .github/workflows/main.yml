@@ -106,7 +106,7 @@ jobs:
 
     - name: Run Deployment Script
       run: |
-        kubectl delete -f $K8S_DIR
+        kubectl delete -f $K8S_DIR --ignore-not-found=true
         kubectl delete service nginx1 || true
         kubectl apply -f $K8S_DIR
         kubectl expose deployment nginx --name=nginx1 --type=LoadBalancer --port 80 --target-port 80
