@@ -13,7 +13,8 @@ API_URL = 'http://34.70.161.6/api/message/'
 
 # Create a Socket.IO client instance
 sio = socketio.Client()
-
+NUM_FRIENDS = 10
+NUM_MESSAGE = 10
 # Define event handlers
 
 
@@ -82,7 +83,7 @@ class RegisterUser(HttpUser):
             response = self.client.get(url, headers=headers)
             if response.status_code == 200:
                 jsonArr = response.json()
-                for _ in range(100):
+                for _ in range(NUM_FRIENDS):
                     random_index = 0
                     while True:
                         random_index = random.randint(0, len(jsonArr) - 1)
@@ -115,9 +116,9 @@ class RegisterUser(HttpUser):
                                 print(
                                     f"Failed to connect to Socket.IO server: {e}")
                                 return
-                        for i in range(100):
+                        for i in range(NUM_MESSAGE):
                             options = ['text', 'voice', 'image']
-                            # Probabilities must sum up to 1
+                            # Probabilitides must sum up to 1
                             probabilities = [0.34, 0.33, 0.33]
 
                             # random.choices returns a list, so we take the first element
