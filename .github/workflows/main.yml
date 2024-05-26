@@ -82,7 +82,7 @@ jobs:
         gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
         gcloud config set project cloudprojtrial\
 
-    - name: get clusters (OKTAY)
+    - name: get clusters (BARIS)
       run: gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project cloudprojtrial
     
     - name: install gke auth plugin
@@ -109,7 +109,7 @@ jobs:
         kubectl delete -f $K8S_DIR --ignore-not-found=true
         kubectl delete service nginx1 || true
         kubectl apply -f $K8S_DIR
-        kubectl apply -f "${K8S_DIR}/common"
+        kubectl apply -f ./k8s/common"
         kubectl expose deployment nginx --name=nginx1 --type=LoadBalancer --port 80 --target-port 80
       env:
         K8S_DIR: ${{ env.K8S_DIR }}
