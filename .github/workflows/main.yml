@@ -70,20 +70,20 @@ jobs:
     - name: Update images
       run: ./update_images.sh
 
-    - name: Change GCP Key (ALPER)
+    - name: Change GCP Key (BARIS)
       env:
-        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_ALPER }}
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.AUTH_FOR_CICD_BARIS }}
       run: |
         rm -rf /tmp/service-account-key.json
         echo "${GCP_SERVICE_ACCOUNT_KEY}" > /tmp/service-account-key.json
 
-    - name: GCP auth (ALPER)
+    - name: GCP auth (BARIS)
       run: |
         gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
-        gcloud config set project alpine-guild-417209\
+        gcloud config set project cloudprojtrial\
 
     - name: get clusters (OKTAY)
-      run: gcloud container clusters get-credentials cluster-2 --zone us-central1-c --project alpine-guild-417209
+      run: gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project cloudprojtrial
     
     - name: install gke auth plugin
       run: gcloud components install gke-gcloud-auth-plugin
@@ -109,6 +109,7 @@ jobs:
         kubectl delete -f $K8S_DIR --ignore-not-found=true
         kubectl delete service nginx1 || true
         kubectl apply -f $K8S_DIR
+        kubectl apply -f "${K8S_DIR}/common"
         kubectl expose deployment nginx --name=nginx1 --type=LoadBalancer --port 80 --target-port 80
       env:
         K8S_DIR: ${{ env.K8S_DIR }}
